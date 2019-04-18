@@ -1,0 +1,6 @@
+*~
+*#
+*.o
+g13d
+tools/pbm2lpbm
+build/
