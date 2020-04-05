@@ -1,7 +1,5 @@
 /*
-** EPITECH PROJECT, 2019
-** G&"
-** File description:
+** G13, 2019
 ** LCDDisplay.hpp
 */
 

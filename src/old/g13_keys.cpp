@@ -14,12 +14,12 @@ namespace G13
  * format.  Do NOT remove or insert items in this list.
  */
 
-#define KEY_SEQ																\
-	/* byte 3 */ (G1)(G2)(G3)(G4)(G5)(G6)(G7)(G8)							\
-	/* byte 4 */ (G9)(G10)(G11)(G12)(G13)(G14)(G15)(G16)					\
-	/* byte 5 */ (G17)(G18)(G19)(G20)(G21)(G22)(UNDEF1)(LIGHT_STATE)		\
-	/* byte 6 */ (BD)(L1)(L2)(L3)(L4)(M1)(M2)(M3)							\
-	/* byte 7 */ (MR)(LEFT)(DOWN)(TOP)(UNDEF3)(LIGHT)(LIGHT2)(MISC_TOGGLE)	\
+#define KEY_SEQ                                                             \
+	/* byte 3 */ (G1) (G2)  (G3)  (G4) (G5)    (G6)   (G7)    (G8)          \
+	/* byte 4 */ (G9) (G10) (G11) (G12)(G13)   (G14)  (G15)   (G16)         \
+	/* byte 5 */ (G17)(G18) (G19) (G20)(G21)   (G22)  (UNDEF1)(LIGHT_STATE) \
+	/* byte 6 */ (BD) (L1)  (L2)  (L3) (L4)    (M1)   (M2)    (M3)          \
+	/* byte 7 */ (MR) (LEFT)(DOWN)(TOP)(UNDEF3)(LIGHT)(LIGHT2)(MISC_TOGGLE)	\
 
 
 /*! G13_NONPARSED_KEY_SEQ is a Boost Preprocessor sequence containing the

@@ -1,7 +1,5 @@
 /*
-** EPITECH PROJECT, 2019
-** G13
-** File description:
+** G13, 2019
 ** Manager.cpp
 */
 
@@ -36,7 +34,7 @@ Manager &Manager::instance()
 
 Manager::Manager()
 {
-	Logger::trace("+ Manager: %p", this);
+	Logger::trace("Manager(): %p", this);
 	assert(s_instance == nullptr);
 	s_instance = this;
 
@@ -58,7 +56,7 @@ Manager::~Manager()
 	m_devices.clear();
 	libusb_exit(NULL);
 
-	Logger::trace("- Manager");
+	Logger::trace("~Manager()");
 }
 
 ////////////////////////////////////////////////////////////////////////////////

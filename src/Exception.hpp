@@ -1,7 +1,5 @@
 /*
-** EPITECH PROJECT, 2019
-** G13
-** File description:
+** G13, 2019
 ** Exception.hpp
 */
 

@@ -1,7 +1,5 @@
 /*
-** EPITECH PROJECT, 2019
-** G13
-** File description:
+** G13, 2019
 ** Device.hpp
 */
 
@@ -15,12 +13,12 @@ namespace G13 {
 
 ////////////////////////////////////////////////////////////////////////////////
 
+#include "LCDDisplay.hpp"
+#include "Profile.hpp"
+
 #include <memory>
 #include <list>
 #include <libusb-1.0/libusb.h>
-
-#include "LCDDisplay.hpp"
-#include "Profile.hpp"
 
 ////////////////////////////////////////////////////////////////////////////////
 

@@ -1,7 +1,5 @@
 /*
-** EPITECH PROJECT, 2019
-** G13
-** File description:
+** G13, 2019
 ** Device.cpp
 */
 
@@ -23,7 +21,7 @@ size_t Device::s_instanceCount = 0;
 ////////////////////////////////////////////////////////////////////////////////
 
 Device::Device(libusb_device *device)
-: m_id(s_instanceCount + 1)
+: m_id(++s_instanceCount)
 , m_handle(nullptr)
 {
 	int ret = libusb_open(device, &m_handle);
@@ -45,8 +43,7 @@ Device::Device(libusb_device *device)
 	if (libusb_claim_interface(m_handle, 0) < 0)
 		throw G13::Exception("Could not claim interface");
 
-	s_instanceCount++;
-	Logger::trace("+ Device #%zu: %p", m_id, this);
+	Logger::trace("Device() #%zu: %p", m_id, this);
 }
 
 Device::~Device()
@@ -54,7 +51,7 @@ Device::~Device()
 	libusb_release_interface(m_handle, 0);
 	libusb_close(m_handle);
 
-	Logger::trace("- Device #%zu", m_id);
+	Logger::trace("~Device() #%zu", m_id);
 	s_instanceCount--;
 }
 
@@ -67,28 +64,6 @@ void Device::init()
 	}
 	catch (G13::Exception &e) {
 		Logger::error("Device #%zu: Could not init LCD display: ", e.what());
-	}
-
-	{
-		unsigned char usb_data[5] = { 5, 0, 0, 0, 0 };
-		usb_data[1] = 0/*leds*/;
-
-		int ret = libusb_control_transfer(m_handle, LIBUSB_REQUEST_TYPE_CLASS | LIBUSB_RECIPIENT_INTERFACE, 9, 0x305, 0, usb_data, 5, 1000);
-		if (ret != 5) {
-			Logger::error("Problem sending leds data");
-		}
-	}
-
-	{
-		unsigned char usb_data[5] = { 5, 0, 0, 0, 0 };
-		usb_data[1] = 0/*red*/;
-		usb_data[2] = 0/*green*/;
-		usb_data[3] = 200/*blue*/;
-
-		int ret = libusb_control_transfer(m_handle, LIBUSB_REQUEST_TYPE_CLASS | LIBUSB_RECIPIENT_INTERFACE, 9, 0x307, 0, usb_data, 5, 1000);
-		if (ret != 5) {
-			Logger::error("Problem sending key color data");
-		}
 	}
 
 	// Push a default profile

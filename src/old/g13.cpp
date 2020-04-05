@@ -254,20 +254,15 @@ static std::string describe_libusb_error_code(int code)
  *
  */
 int G13_Device::read_keys() {
-	unsigned char buffer[G13_REPORT_SIZE];
+	unsigned char buffer[G13::REPORT_SIZE];
 	int size;
-	int error = libusb_interrupt_transfer(handle,
-			LIBUSB_ENDPOINT_IN | G13::KEY_ENDPOINT, buffer, G13::REPORT_SIZE,
-			&size, 100);
-
+	int error = libusb_interrupt_transfer(handle, LIBUSB_ENDPOINT_IN | G13::KEY_ENDPOINT, buffer, G13::REPORT_SIZE, &size, 100);
 	if (error && error != LIBUSB_ERROR_TIMEOUT) {
-
-		G13::LOG(error, "Error while reading keys: " << error << " ("
-				<< describe_libusb_error_code(error) << ")");
+		G13::LOG(error, "Error while reading keys: " << error << " (" << describe_libusb_error_code(error) << ")");
 		//    G13::LOG(error, "Stopping daemon");
 		//    return -1;
 	}
-	if (size == G13_REPORT_SIZE) {
+	if (size == G13::REPORT_SIZE) {
 		parse_joystick(buffer);
 		_current_profile->parse_keys(buffer);
 		send_event(EV_SYN, SYN_REPORT, 0);

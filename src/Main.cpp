@@ -1,15 +1,13 @@
 /*
-** EPITECH PROJECT, 2019
-** G13
-** File description:
+** G13, 2019
 ** Main.cpp
 */
 
+#include "Manager.hpp"
 #include "Exception.hpp"
 #include "Logger.hpp"
-#include "Manager.hpp"
 
-int main(int /*argc*/, char const */*argv*/[])
+int main(/*int argc, char const *argv[]*/)
 {
 	try {
 		G13::Manager manager;
@@ -18,5 +16,6 @@ int main(int /*argc*/, char const */*argv*/[])
 	catch (G13::Exception &e) {
 		Logger::fatal(e.what());
 	}
+
 	return EXIT_FAILURE;
 }

@@ -174,7 +174,7 @@ void G13::LCD::image_test(int x, int y)
 				for (row = 0; row < G13::LCD_ROWS; ++row) {
 					col = row;
 					image_setpixel(row, col);
-					image_setpixel(row, G13::LCD_COLUMNS-col);
+					image_setpixel(row, G13::LCD_COLUMNS - col);
 				}
 			break;
 			case 2:
@@ -185,7 +185,7 @@ void G13::LCD::image_test(int x, int y)
 					image_setpixel(row, G13::LCD_COLUMNS - 8);
 					image_setpixel(row, G13::LCD_COLUMNS / 2);
 					image_setpixel(row, col);
-					image_setpixel(row, G13::LCD_COLUMNS-col);
+					image_setpixel(row, G13::LCD_COLUMNS - col);
 				}
 			break;
 		}

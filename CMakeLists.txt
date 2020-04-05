@@ -1,21 +1,34 @@
 ##
-## EPITECH PROJECT, 2019
-## G13
-## File description:
+## G13, 2019
 ## CMakeLists.txt
 ##
 
 cmake_minimum_required(VERSION 3.0.0 FATAL_ERROR)
 
-project(G13)
+project(G13 VERSION 0.1.0)
+add_executable(g13d)
 
-add_definitions("-std=c++17")
-add_definitions("-W -Wall -Wextra")
-add_definitions("-g3")
+target_compile_features(g13d
+PUBLIC
+	cxx_std_17
+)
 
-set(SOURCES
+target_compile_options(g13d
+PUBLIC
+	-fPIC
+	-W -Wall -Wextra
+	-g3
+)
+
+target_include_directories(g13d
+PUBLIC
+	.
+	src
+)
+
+target_sources(g13d
+PUBLIC
 	extern/tinyformat.hpp
-
 	src/Main.cpp
 	src/Exception.hpp
 	src/Logger.hpp
@@ -28,6 +41,7 @@ set(SOURCES
 	src/LCDDisplay.cpp
 )
 
-add_executable(g13d ${SOURCES})
-target_include_directories(g13d PUBLIC . src)
-target_link_libraries(g13d usb-1.0)
+target_link_libraries(g13d
+PUBLIC
+	usb-1.0
+)
