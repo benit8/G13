@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 bin="g13d"
 
@@ -7,9 +8,9 @@ if [ ! -d ./build ]; then
 	mkdir ./build
 fi
 
-cd ./build &&
-cmake .. -G "Unix Makefiles" &&
-cmake --build . -- -j $(nproc) &&
+cd ./build
+cmake .. -G "Unix Makefiles"
+cmake --build . -- -j $(nproc)
 
 # we still in ./build
 cp "./$bin" ../

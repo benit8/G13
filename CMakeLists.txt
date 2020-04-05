@@ -29,5 +29,5 @@ set(SOURCES
 )
 
 add_executable(g13d ${SOURCES})
-target_include_directories(g13d PUBLIC src/ extern/)
+target_include_directories(g13d PUBLIC . src)
 target_link_libraries(g13d usb-1.0)
