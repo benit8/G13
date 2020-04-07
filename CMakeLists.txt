@@ -23,22 +23,22 @@ PUBLIC
 target_include_directories(g13d
 PUBLIC
 	.
-	src
+	sources
 )
 
 target_sources(g13d
 PUBLIC
 	extern/tinyformat.hpp
-	src/Main.cpp
-	src/Exception.hpp
-	src/Logger.hpp
-	src/Logger.cpp
-	src/Manager.hpp
-	src/Manager.cpp
-	src/Device.hpp
-	src/Device.cpp
-	src/LCDDisplay.hpp
-	src/LCDDisplay.cpp
+	sources/Main.cpp
+	sources/Exception.hpp
+	sources/Logger.hpp
+	sources/Logger.cpp
+	sources/Manager.hpp
+	sources/Manager.cpp
+	sources/Device.hpp
+	sources/Device.cpp
+	sources/LCDDisplay.hpp
+	sources/LCDDisplay.cpp
 )
 
 target_link_libraries(g13d
