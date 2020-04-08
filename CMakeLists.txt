@@ -38,8 +38,10 @@ PUBLIC
 	sources/Manager.cpp
 	sources/Device.hpp
 	sources/Device.cpp
-	sources/LCDDisplay.hpp
-	sources/LCDDisplay.cpp
+	sources/Display.hpp
+	sources/Display.cpp
+	sources/Profile.hpp
+	sources/Profile.cpp
 )
 
 target_link_libraries(g13d

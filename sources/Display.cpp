@@ -1,9 +1,9 @@
 /*
 ** G13, 2019
-** LCDDisplay.cpp
+** Display.cpp
 */
 
-#include "LCDDisplay.hpp"
+#include "Display.hpp"
 #include "Exception.hpp"
 #include "Logger.hpp"
 
@@ -14,7 +14,7 @@ namespace G13
 
 ////////////////////////////////////////////////////////////////////////////////
 
-LCDDisplay::LCDDisplay(libusb_device_handle *handle)
+Display::Display(libusb_device_handle *handle)
 : m_handle(handle)
 {
 	int ret = libusb_control_transfer(m_handle, 0, 9, 1, 0, 0, 0, 1000);
@@ -47,7 +47,7 @@ LCDDisplay::LCDDisplay(libusb_device_handle *handle)
 	}
 }
 
-LCDDisplay::~LCDDisplay()
+Display::~Display()
 {
 }
 

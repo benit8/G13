@@ -1,6 +1,6 @@
 /*
 ** G13, 2019
-** LCDDisplay.hpp
+** Display.hpp
 */
 
 #pragma once
@@ -8,7 +8,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace G13 {
-	class LCDDisplay;
+	class Display;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -20,15 +20,15 @@ namespace G13 {
 namespace G13
 {
 
-class LCDDisplay
+class Display
 {
 public:
-	const unsigned width = 160;
-	const unsigned height = 48;
+	static constexpr unsigned Width = 160;
+	static constexpr unsigned Height = 48;
 
 public:
-	LCDDisplay(libusb_device_handle *handle);
-	~LCDDisplay();
+	Display(libusb_device_handle *handle);
+	~Display();
 
 private:
 	libusb_device_handle *m_handle = nullptr;

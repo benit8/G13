@@ -14,17 +14,18 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
+static G13::Manager *s_instance = nullptr;
+
+////////////////////////////////////////////////////////////////////////////////
+
 namespace G13
 {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-static Manager *s_instance = nullptr;
-
 bool Manager::s_running = false;
 
-
-Manager &Manager::instance()
+Manager &Manager::the()
 {
 	assert(s_instance);
 	return *s_instance;
@@ -35,6 +36,7 @@ Manager &Manager::instance()
 Manager::Manager()
 {
 	Logger::trace("Manager(): %p", this);
+
 	assert(s_instance == nullptr);
 	s_instance = this;
 
@@ -64,6 +66,7 @@ Manager::~Manager()
 int Manager::run()
 {
 	Logger::info("Launching...");
+	s_running = true;
 
 	if (!findDevices()) {
 		Logger::fatal("Could not find any G13");
@@ -72,8 +75,11 @@ int Manager::run()
 
 	Logger::info("Found %zu G13s", m_devices.size());
 
-	for (auto &dev : m_devices)
-		dev->init();
+	while (s_running) {
+		for (auto &device : m_devices) {
+			device->readKeys();
+		}
+	}
 
 	return EXIT_SUCCESS;
 }
@@ -104,7 +110,7 @@ bool Manager::findDevices()
 		// Test for a G13
 		if (desc.idVendor == G13::VendorId && desc.idProduct == G13::ProductId) {
 			try {
-				m_devices.push_back(std::make_shared<Device>(devices[i]));
+				m_devices.push_back(std::make_unique<Device>(devices[i]));
 			}
 			catch (G13::Exception &e) {
 				Logger::error("Device instanciation failed: %s", e.what());
