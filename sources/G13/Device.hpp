@@ -13,8 +13,9 @@ namespace G13 {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "Display.hpp"
-#include "Profile.hpp"
+#include "G13/Display.hpp"
+#include "G13/Keys.hpp"
+#include "G13/Profile.hpp"
 
 #include <libusb-1.0/libusb.h>
 #include <list>
@@ -31,15 +32,6 @@ class Device
 	static constexpr unsigned char KeyEndpoint = 1;
 	static constexpr unsigned int ReportSize = 8;
 
-	enum class Key
-	{
-		G1, G2, G3, G4, G5, G6, G7, G8,
-		G9, G10, G11, G12, G13, G14, G15, G16,
-		G17, G18, G19, G20, G21, G22, _Undef1, LightState,
-		BD, L1, L2, L3, L4, M1, M2, M3,
-		MR, Left, Down, Top, _Undef2, Light, Light2, MiscToggle,
-	};
-
 	struct KeyInfo
 	{
 		const char *name;
@@ -51,8 +43,8 @@ public:
 	Device(libusb_device *device);
 	~Device();
 
-	void init();
 	void readKeys();
+	void setBacklightColor(unsigned char r, unsigned char g, unsigned char b);
 
 	bool isKeyPressed(Key k) const { return m_keyStates.at(k); }
 	bool isDisplayBacklightOn() const { return isKeyPressed(Key::LightState); }
@@ -69,8 +61,12 @@ private:
 private:
 	size_t m_id = 0;
 	libusb_device_handle *m_handle = nullptr;
+
 	Display m_display;
+
 	std::list<Profile> m_profiles;
+	Profile *m_currentProfile = nullptr;
+
 	std::map<Key, bool> m_keyStates;
 
 	/*

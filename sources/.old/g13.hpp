@@ -40,7 +40,7 @@ enum {
 	LCD_ENDPOINT = 2,
 	REPORT_SIZE = 8,
 	NUM_KEYS = 40,
-	LCD_BUFFER_SIZE = 0x3C0, // 960
+	LCD_BUFFER_SIZE = 960,
 	VENDOR_ID = 0x046D, // 1133
 	PRODUCT_ID = 0xC21C, // 49692
 }
@@ -391,7 +391,7 @@ public:
 	}
 
 	unsigned image_byte_offset(unsigned row, unsigned col) {
-		return col + (row / 8) * G13_LCD_BYTES_PER_ROW * 8;
+		return col + (row / 8) * LCD_BYTES_PER_ROW * 8;
 	}
 
 	void image_setpixel(unsigned row, unsigned col);

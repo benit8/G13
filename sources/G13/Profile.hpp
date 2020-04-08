@@ -1,6 +1,6 @@
 /*
-** G13, 2019
-** Display.hpp
+** G13, 2020
+** Joystick.hpp
 */
 
 #pragma once
@@ -8,30 +8,31 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace G13 {
-	class Display;
+	class Profile;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <libusb-1.0/libusb.h>
+#include "G13/Keys.hpp"
+
+#include <string>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace G13
 {
 
-class Display
+class Profile
 {
 public:
-	static constexpr unsigned Width = 160;
-	static constexpr unsigned Height = 48;
+	explicit Profile(std::string &&name);
 
-public:
-	Display(libusb_device_handle *handle);
-	~Display();
+	void doAction(Key) const;
+
+	const std::string &name() const { return m_name; }
 
 private:
-	libusb_device_handle *m_handle = nullptr;
+	std::string m_name;
 };
 
 }

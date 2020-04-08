@@ -3,7 +3,7 @@
 ** Manager.cpp
 */
 
-#include "Manager.hpp"
+#include "G13/Manager.hpp"
 #include "Exception.hpp"
 #include "Logger.hpp"
 
@@ -41,7 +41,7 @@ Manager::Manager()
 	s_instance = this;
 
 	if (libusb_init(NULL) < 0)
-		throw G13::Exception("Could not initialize libusb");
+		throw Exception("Could not initialize libusb");
 
 	libusb_set_option(NULL, LIBUSB_OPTION_LOG_LEVEL, LIBUSB_LOG_LEVEL_WARNING);
 
@@ -112,7 +112,7 @@ bool Manager::findDevices()
 			try {
 				m_devices.push_back(std::make_unique<Device>(devices[i]));
 			}
-			catch (G13::Exception &e) {
+			catch (Exception &e) {
 				Logger::error("Device instanciation failed: %s", e.what());
 			}
 		}

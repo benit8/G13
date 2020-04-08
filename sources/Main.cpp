@@ -3,7 +3,7 @@
 ** Main.cpp
 */
 
-#include "Manager.hpp"
+#include "G13/Manager.hpp"
 #include "Exception.hpp"
 #include "Logger.hpp"
 
@@ -13,7 +13,7 @@ int main(/*int argc, char const *argv[]*/)
 		G13::Manager manager;
 		return manager.run();
 	}
-	catch (G13::Exception &e) {
+	catch (Exception &e) {
 		Logger::fatal(e.what());
 	}
 

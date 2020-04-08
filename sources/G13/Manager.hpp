@@ -13,15 +13,11 @@ namespace G13 {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fcntl.h>
-#include <linux/uinput.h>
 #include <memory>
 #include <list>
-#include <sys/stat.h>
-#include <unistd.h>
 #include <libusb-1.0/libusb.h>
 
-#include "Device.hpp"
+#include "G13/Device.hpp"
 
 ////////////////////////////////////////////////////////////////////////////////
 
