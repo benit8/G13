@@ -13,6 +13,7 @@ namespace G13 {
 
 ////////////////////////////////////////////////////////////////////////////////
 
+#include "Color.hpp"
 #include "G13/Display.hpp"
 #include "G13/Keys.hpp"
 #include "G13/Profile.hpp"
@@ -37,6 +38,7 @@ class Device
 		const char *name;
 		unsigned char byte;
 		unsigned char bit;
+		bool bindable;
 	};
 
 public:
@@ -44,7 +46,7 @@ public:
 	~Device();
 
 	void readKeys();
-	void setBacklightColor(unsigned char r, unsigned char g, unsigned char b);
+	void setBacklightColor(const Color &);
 
 	bool isKeyPressed(Key k) const { return m_keyStates.at(k); }
 	bool isDisplayBacklightOn() const { return isKeyPressed(Key::LightState); }
@@ -55,6 +57,7 @@ private:
 	libusb_device_handle *claimDevice(libusb_device *device);
 	void parseJoystick();
 	void parseKeys();
+	void doBuiltinAction(Key);
 
 	static size_t instanceCount() { return s_instanceCount; }
 

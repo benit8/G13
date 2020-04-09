@@ -32,21 +32,24 @@ PUBLIC
 	extern/tinyformat.hpp
 	extern/font8x8/get_character.cpp
 
-	sources/Main.cpp
+	sources/Color.hpp
 	sources/Exception.hpp
-	sources/Logger.hpp
 	sources/Logger.cpp
-	sources/RenderTarget.hpp
+	sources/Logger.hpp
+	sources/Main.cpp
 	sources/RenderTarget.cpp
-	sources/G13/Manager.hpp
-	sources/G13/Manager.cpp
-	sources/G13/Keys.hpp
-	sources/G13/Device.hpp
+	sources/RenderTarget.hpp
+
+	sources/G13/Actions.hpp
 	sources/G13/Device.cpp
-	sources/G13/Display.hpp
+	sources/G13/Device.hpp
 	sources/G13/Display.cpp
-	sources/G13/Profile.hpp
+	sources/G13/Display.hpp
+	sources/G13/Keys.hpp
+	sources/G13/Manager.cpp
+	sources/G13/Manager.hpp
 	sources/G13/Profile.cpp
+	sources/G13/Profile.hpp
 )
 
 target_link_libraries(g13d

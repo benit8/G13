@@ -19,46 +19,46 @@ namespace G13
 size_t Device::s_instanceCount = 0;
 
 const std::map<Key, Device::KeyInfo> Device::s_keys = {
-	{Key::G1, {"G1", 3, 1}},
-	{Key::G2, {"G2", 3, 2}},
-	{Key::G3, {"G3", 3, 4}},
-	{Key::G4, {"G4", 3, 8}},
-	{Key::G5, {"G5", 3, 16}},
-	{Key::G6, {"G6", 3, 32}},
-	{Key::G7, {"G7", 3, 64}},
-	{Key::G8, {"G8", 3, 128}},
-	{Key::G9, {"G9", 4, 1}},
-	{Key::G10, {"G10", 4, 2}},
-	{Key::G11, {"G11", 4, 4}},
-	{Key::G12, {"G12", 4, 8}},
-	{Key::G13, {"G13", 4, 16}},
-	{Key::G14, {"G14", 4, 32}},
-	{Key::G15, {"G15", 4, 64}},
-	{Key::G16, {"G16", 4, 128}},
-	{Key::G17, {"G17", 5, 1}},
-	{Key::G18, {"G18", 5, 2}},
-	{Key::G19, {"G19", 5, 4}},
-	{Key::G20, {"G20", 5, 8}},
-	{Key::G21, {"G21", 5, 16}},
-	{Key::G22, {"G22", 5, 32}},
-	{Key::_Undef1, {"_Undef1", 5, 64}},
-	{Key::LightState, {"LightState", 5, 128}},
-	{Key::BD, {"BD", 6, 1}},
-	{Key::L1, {"L1", 6, 2}},
-	{Key::L2, {"L2", 6, 4}},
-	{Key::L3, {"L3", 6, 8}},
-	{Key::L4, {"L4", 6, 16}},
-	{Key::M1, {"M1", 6, 32}},
-	{Key::M2, {"M2", 6, 64}},
-	{Key::M3, {"M3", 6, 128}},
-	{Key::MR, {"MR", 7, 1}},
-	{Key::Left, {"Left", 7, 2}},
-	{Key::Down, {"Down", 7, 4}},
-	{Key::Top, {"Top", 7, 8}},
-	{Key::_Undef2, {"_Undef2", 7, 16}},
-	{Key::Light, {"Light", 7, 32}},
-	{Key::Light2, {"Light2", 7, 64}},
-	{Key::MiscToggle, {"MiscToggle", 7, 128}},
+	{Key::G1, {"G1", 3, 1, true}},
+	{Key::G2, {"G2", 3, 2, true}},
+	{Key::G3, {"G3", 3, 4, true}},
+	{Key::G4, {"G4", 3, 8, true}},
+	{Key::G5, {"G5", 3, 16, true}},
+	{Key::G6, {"G6", 3, 32, true}},
+	{Key::G7, {"G7", 3, 64, true}},
+	{Key::G8, {"G8", 3, 128, true}},
+	{Key::G9, {"G9", 4, 1, true}},
+	{Key::G10, {"G10", 4, 2, true}},
+	{Key::G11, {"G11", 4, 4, true}},
+	{Key::G12, {"G12", 4, 8, true}},
+	{Key::G13, {"G13", 4, 16, true}},
+	{Key::G14, {"G14", 4, 32, true}},
+	{Key::G15, {"G15", 4, 64, true}},
+	{Key::G16, {"G16", 4, 128, true}},
+	{Key::G17, {"G17", 5, 1, true}},
+	{Key::G18, {"G18", 5, 2, true}},
+	{Key::G19, {"G19", 5, 4, true}},
+	{Key::G20, {"G20", 5, 8, true}},
+	{Key::G21, {"G21", 5, 16, true}},
+	{Key::G22, {"G22", 5, 32, true}},
+	{Key::_Undef1, {"_Undef1", 5, 64, false}},
+	{Key::LightState, {"LightState", 5, 128, false}},
+	{Key::BD, {"BD", 6, 1, false}},
+	{Key::L1, {"L1", 6, 2, false}},
+	{Key::L2, {"L2", 6, 4, false}},
+	{Key::L3, {"L3", 6, 8, false}},
+	{Key::L4, {"L4", 6, 16, false}},
+	{Key::M1, {"M1", 6, 32, false}},
+	{Key::M2, {"M2", 6, 64, false}},
+	{Key::M3, {"M3", 6, 128, false}},
+	{Key::MR, {"MR", 7, 1, false}},
+	{Key::Left, {"Left", 7, 2, true}},
+	{Key::Down, {"Down", 7, 4, true}},
+	{Key::Top, {"Top", 7, 8, true}},
+	{Key::_Undef2, {"_Undef2", 7, 16, false}},
+	{Key::Light, {"Light", 7, 32, false}},
+	{Key::Light2, {"Light2", 7, 64, false}},
+	{Key::MiscToggle, {"MiscToggle", 7, 128, false}},
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -70,10 +70,8 @@ Device::Device(libusb_device *device)
 {
 	Logger::trace("Device() #%zu: %p", m_id, this);
 
-	m_profiles.emplace_back("Default");
+	m_profiles.emplace_back(*this, "Default");
 	m_currentProfile = &m_profiles.back();
-
-	setBacklightColor(100, 0, 0);
 
 	m_display.clear();
 	m_display.writeString(0, 0, "Linked to g13d!");
@@ -121,9 +119,9 @@ void Device::readKeys()
 	// send_event(EV_SYN, SYN_REPORT, 0);
 }
 
-void Device::setBacklightColor(unsigned char r, unsigned char g, unsigned char b)
+void Device::setBacklightColor(const Color &c)
 {
-	unsigned char data[5] = { 5, r, g, b, 0 };
+	unsigned char data[5] = { 5, c.r, c.g, c.b, 0 };
 	int ret = libusb_control_transfer(m_handle, LIBUSB_REQUEST_TYPE_CLASS | LIBUSB_RECIPIENT_INTERFACE, 9, 0x307, 0, data, sizeof(data), 1000);
 	if (ret != sizeof(data)) {
 		Logger::error("Device #%zu: Problem sending key color data", m_id);
@@ -175,8 +173,29 @@ void Device::parseKeys()
 
 		m_keyStates[key] = pressed;
 
-		if (pressed)
-			m_currentProfile->doAction(key);
+		if (pressed) {
+			if (!infos.bindable)
+				doBuiltinAction(key);
+			else
+				m_currentProfile->doAction(key);
+		}
+	}
+}
+
+void Device::doBuiltinAction(Key key)
+{
+	switch (key) {
+		case Key::M1:
+			m_currentProfile->switchToPage(0);
+			break;
+		case Key::M2:
+			m_currentProfile->switchToPage(1);
+			break;
+		case Key::M3:
+			m_currentProfile->switchToPage(2);
+			break;
+		default:
+			break;
 	}
 }
 
