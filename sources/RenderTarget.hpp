@@ -22,6 +22,7 @@ public:
 
 	void clear();
 	void setPixel(unsigned x, unsigned y);
+	void writeCharacter(unsigned x, unsigned y, int c);
 	void writeString(unsigned x, unsigned y, std::string &&);
 
 	virtual void present() const = 0;

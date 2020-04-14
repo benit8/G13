@@ -30,7 +30,7 @@ PUBLIC
 target_sources(g13d
 PUBLIC
 	extern/tinyformat.hpp
-	extern/font8x8/get_character.cpp
+	extern/font-5x8.h
 
 	sources/Color.hpp
 	sources/Exception.hpp

@@ -7,7 +7,7 @@
 #include "Exception.hpp"
 #include "Logger.hpp"
 
-#include "extern/font8x8/font8x8.h"
+#include "extern/font-5x8.h"
 
 #include <cstring>
 
@@ -42,26 +42,34 @@ void RenderTarget::setPixel(unsigned x, unsigned y)
 	unsigned char mask = 1 << (y % 8);
 
 	if (offset >= m_bufferSize) {
-		Logger::warn("RenderTarget: bad offset %u for [%u,%u]", offset, x, y);
+		Logger::warn("RenderTarget::setPixel: bad offset %u for [%u,%u]", offset, x, y);
 		return;
 	}
 
 	m_framebuffer[offset] |= mask;
 }
 
+void RenderTarget::writeCharacter(unsigned x, unsigned y, int c)
+{
+	if (c < 0 || c > 255)
+		return;
+
+	const unsigned char *lines = &console_font_5x8[c * 8];
+	for (uint8_t line = 0; line < 8; ++line) {
+		if (lines[line] == 0)
+			continue;
+
+		for (uint8_t _x = 0; _x < 5; ++_x) {
+			if (lines[line] & (1U << _x))
+				setPixel(x + _x, y + line);
+		}
+	}
+}
+
 void RenderTarget::writeString(unsigned x, unsigned y, std::string &&str)
 {
-	auto drawCharacter = [&] (int c) {
-		uint64_t bitmap = font8x8_get_character(c);
-
-		for (int _y = 0; _y < 8; ++_y)
-			for (int _x = 0; _x < 8; ++_x)
-				if (bitmap & (1UL << (_y * 8 + _x)))
-					setPixel(_x + x, _y + y);
-	};
-
 	for (auto c : str) {
-		drawCharacter(c);
-		x += 8;
+		writeCharacter(x, y, c);
+		x += 5;
 	}
 }
