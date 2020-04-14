@@ -73,6 +73,8 @@ Device::Device(libusb_device *device)
 	m_profiles.emplace_back(*this, "Default");
 	m_currentProfile = &m_profiles.back();
 
+	readKeys();
+
 	m_display.clear();
 	m_display.writeString(0, 0, "Linked to g13d!");
 	m_display.present();
@@ -89,8 +91,6 @@ Device::~Device()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/// IDEA: https://stackoverflow.com/questions/1262310/simulate-keypress-in-a-linux-c-console-application
-/// IDEA: xdotool
 void Device::readKeys()
 {
 	int transfered = 0;
@@ -111,12 +111,8 @@ void Device::readKeys()
 		return;
 	}
 
-	// Logger::debug("Device #%zu: key buffer {%u, %u, %u, %u, %u, %u, %u, %u}", m_id, m_keyBuffer[0], m_keyBuffer[1], m_keyBuffer[2], m_keyBuffer[3], m_keyBuffer[4], m_keyBuffer[5], m_keyBuffer[6], m_keyBuffer[7]);
-
 	parseJoystick();
 	parseKeys();
-
-	// send_event(EV_SYN, SYN_REPORT, 0);
 }
 
 void Device::setBacklightColor(const Color &c)
@@ -153,6 +149,16 @@ libusb_device_handle *Device::claimDevice(libusb_device *device)
 		throw Exception("Could not claim interface");
 
 	return handle;
+}
+
+void Device::transferLedState()
+{
+	unsigned char data[5] = { 5, m_ledState, 0, 0, 0 };
+
+	int ret = libusb_control_transfer(m_handle, LIBUSB_REQUEST_TYPE_CLASS | LIBUSB_RECIPIENT_INTERFACE, 9, 0x305, 0, data, sizeof(data), 1000);
+	if (ret != sizeof(data)) {
+		Logger::error("Device #%zu: Problem sending leds data", m_id);
+	}
 }
 
 void Device::parseJoystick()

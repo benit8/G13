@@ -25,17 +25,6 @@ Display::Display(libusb_device_handle *handle)
 		Logger::error("Failed to initialize LCD display");
 		throw Exception("%s: %s", libusb_error_name(ret), libusb_strerror((libusb_error)ret));
 	}
-
-
-	// {
-	// 	unsigned char data[5] = { 5, 0, 0, 0, 0 };
-	// 	data[1] = 0/*leds*/;
-
-	// 	int ret = libusb_control_transfer(m_handle, LIBUSB_REQUEST_TYPE_CLASS | LIBUSB_RECIPIENT_INTERFACE, 9, 0x305, 0, data, sizeof(data), 1000);
-	// 	if (ret != sizeof(data)) {
-	// 		Logger::error("Problem sending leds data");
-	// 	}
-	// }
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -46,8 +46,9 @@ public:
 private:
 	Device &m_parent;
 	std::string m_name;
+
 	Page m_pages[3];
-	size_t m_currentPageIndex = 0;
+	size_t m_currentPageIndex = -1;
 };
 
 }

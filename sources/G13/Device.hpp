@@ -42,19 +42,33 @@ class Device
 	};
 
 public:
+	enum LED
+	{
+		M1 = 1 << 1,
+		M2 = 1 << 2,
+		M3 = 1 << 3,
+		MR = 1 << 4,
+	};
+
+public:
 	Device(libusb_device *device);
 	~Device();
 
 	void readKeys();
 	void setBacklightColor(const Color &);
 
-	bool isKeyPressed(Key k) const { return m_keyStates.at(k); }
+	void setLedState(Device::LED led) { m_ledState = led; transferLedState(); }
+	void turnLedOn(Device::LED led) { m_ledState |= led; transferLedState(); }
+	void turnLedOff(Device::LED led) { m_ledState &= ~led; transferLedState(); }
+
+	bool isKeyPressed(Key k) const { return m_keyStates[k]; }
 	bool isDisplayBacklightOn() const { return isKeyPressed(Key::LightState); }
 
 	size_t getId() const { return m_id; }
 
 private:
 	libusb_device_handle *claimDevice(libusb_device *device);
+	void transferLedState();
 	void parseJoystick();
 	void parseKeys();
 	void doBuiltinAction(Key);
@@ -71,6 +85,7 @@ private:
 	Profile *m_currentProfile = nullptr;
 
 	std::map<Key, bool> m_keyStates;
+	unsigned char m_ledState = 0;
 
 	/*
 	 * Buffer elements description:
