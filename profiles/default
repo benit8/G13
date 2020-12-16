@@ -1,0 +1,14 @@
+profile "Default" {
+	page M1 {
+		color 100,0,0;
+		bind G1 Escape;
+		bind G3 Ctrl+Z;
+		bind G5 F5;
+		bind G7 Ctrl+Alt+T;
+		bind G10 Ctrl+X;
+		bind G11 Ctrl+C;
+		bind G12 Ctrl+V;
+		bind G22 Space;
+		bind Left "Random copy pasta";
+	}
+}

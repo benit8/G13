@@ -1,6 +1,6 @@
 /*
 ** G13, 2020
-** Color.hpp
+** Common / Color.hpp
 */
 
 #pragma once

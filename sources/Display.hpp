@@ -13,7 +13,7 @@ namespace G13 {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "RenderTarget.hpp"
+#include "Common/RenderTarget.hpp"
 
 #include <libusb-1.0/libusb.h>
 
@@ -43,20 +43,20 @@ namespace G13
 
 class Display : public RenderTarget
 {
-protected:
-	static constexpr int UsbEndPoint = 0x02;
+public:
+	static constexpr unsigned width = 160;
+	static constexpr unsigned height = 48;
 
 public:
-	static constexpr unsigned Width = 160;
-	static constexpr unsigned Height = 48;
-
-public:
-	Display(libusb_device_handle *handle);
+	Display(libusb_device_handle* handle);
 
 	void present() const override;
 
+protected:
+	static constexpr int usbEndPoint = 0x02;
+
 private:
-	libusb_device_handle *m_handle = nullptr;
+	libusb_device_handle* m_handle = nullptr;
 };
 
 }

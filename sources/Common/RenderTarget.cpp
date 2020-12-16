@@ -1,13 +1,13 @@
 /*
 ** G13, 2020
-** RenderTarget.cpp
+** Common / RenderTarget.cpp
 */
 
-#include "RenderTarget.hpp"
-#include "Exception.hpp"
-#include "Logger.hpp"
+#include "Common/RenderTarget.hpp"
+#include "Common/Exception.hpp"
+#include "Common/Logger.hpp"
 
-#include "extern/font-5x8.h"
+#include "font-5x8.h"
 
 #include <cstring>
 
@@ -54,7 +54,7 @@ void RenderTarget::writeCharacter(unsigned x, unsigned y, int c)
 	if (c < 0 || c > 255)
 		return;
 
-	const unsigned char *lines = &console_font_5x8[c * 8];
+	const unsigned char* lines = &console_font_5x8[c * 8];
 	for (uint8_t line = 0; line < 8; ++line) {
 		if (lines[line] == 0)
 			continue;
@@ -66,7 +66,7 @@ void RenderTarget::writeCharacter(unsigned x, unsigned y, int c)
 	}
 }
 
-void RenderTarget::writeString(unsigned x, unsigned y, std::string &&str)
+void RenderTarget::writeString(unsigned x, unsigned y, std::string_view str)
 {
 	for (auto c : str) {
 		writeCharacter(x, y, c);

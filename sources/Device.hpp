@@ -13,10 +13,10 @@ namespace G13 {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "Color.hpp"
-#include "G13/Display.hpp"
-#include "G13/Keys.hpp"
-#include "G13/Profile.hpp"
+#include "Common/Color.hpp"
+#include "Display.hpp"
+#include "Keys.hpp"
+#include "Profile.hpp"
 
 #include <libusb-1.0/libusb.h>
 #include <list>
@@ -30,12 +30,12 @@ namespace G13
 
 class Device
 {
-	static constexpr unsigned char KeyEndpoint = 1;
-	static constexpr unsigned int ReportSize = 8;
+	static constexpr unsigned char keyEndpoint = 1;
+	static constexpr unsigned int reportSize = 8;
 
 	struct KeyInfo
 	{
-		const char *name;
+		const char* name;
 		unsigned char byte;
 		unsigned char bit;
 		bool bindable;
@@ -51,11 +51,11 @@ public:
 	};
 
 public:
-	Device(libusb_device *device);
+	Device(libusb_device* device);
 	~Device();
 
 	void readKeys();
-	void setBacklightColor(const Color &);
+	void setBacklightColor(const Color&);
 
 	void setLedState(Device::LED led) { m_ledState = led; transferLedState(); }
 	void turnLedOn(Device::LED led) { m_ledState |= led; transferLedState(); }
@@ -67,24 +67,24 @@ public:
 	size_t getId() const { return m_id; }
 
 private:
-	libusb_device_handle *claimDevice(libusb_device *device);
+	libusb_device_handle* claimDevice(libusb_device* device);
 	void transferLedState();
 	void parseJoystick();
 	void parseKeys();
-	void doBuiltinAction(Key);
+	void doBuiltinAction(Key, bool pressed);
 
 	static size_t instanceCount() { return s_instanceCount; }
 
 private:
 	size_t m_id = 0;
-	libusb_device_handle *m_handle = nullptr;
+	libusb_device_handle* m_handle = nullptr;
 
 	Display m_display;
 
 	std::list<Profile> m_profiles;
-	Profile *m_currentProfile = nullptr;
+	Profile* m_currentProfile = nullptr;
 
-	std::map<Key, bool> m_keyStates;
+	bool m_keyStates[Key::COUNT] { false };
 	unsigned char m_ledState = 0;
 
 	/*
@@ -98,7 +98,7 @@ private:
 	 * [6]: Key mask: BD -> M3
 	 * [7]: Key mask: MR -> MiscToggle
 	 */
-	unsigned char m_keyBuffer[ReportSize] { 0 };
+	unsigned char m_keyBuffer[reportSize] { 0 };
 
 	static size_t s_instanceCount;
 	static const std::map<Key, KeyInfo> s_keys;

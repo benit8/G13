@@ -11,7 +11,7 @@ add_executable(g13d)
 
 target_compile_features(g13d
 PUBLIC
-	cxx_std_17
+	cxx_std_20
 )
 
 target_compile_options(g13d
@@ -22,37 +22,48 @@ PUBLIC
 )
 
 target_include_directories(g13d
-PUBLIC
-	.
+PRIVATE
+	extern
 	sources
 )
 
 target_sources(g13d
-PUBLIC
+PRIVATE
 	extern/tinyformat.hpp
 	extern/font-5x8.h
 
-	sources/Color.hpp
-	sources/Exception.hpp
-	sources/Logger.cpp
-	sources/Logger.hpp
-	sources/Main.cpp
-	sources/RenderTarget.cpp
-	sources/RenderTarget.hpp
+	sources/Actions.hpp
+	sources/Device.cpp
+	sources/Device.hpp
+	sources/Display.cpp
+	sources/Display.hpp
+	sources/Keys.hpp
+	sources/main.cpp
+	sources/Manager.cpp
+	sources/Manager.hpp
+	sources/Profile.cpp
+	sources/Profile.hpp
+	sources/ProfileParser/Token.cpp
+	sources/ProfileParser/Token.hpp
+	sources/ProfileParser/Lexer.cpp
+	sources/ProfileParser/Lexer.hpp
 
-	sources/G13/Actions.hpp
-	sources/G13/Device.cpp
-	sources/G13/Device.hpp
-	sources/G13/Display.cpp
-	sources/G13/Display.hpp
-	sources/G13/Keys.hpp
-	sources/G13/Manager.cpp
-	sources/G13/Manager.hpp
-	sources/G13/Profile.cpp
-	sources/G13/Profile.hpp
+	sources/Common/Color.hpp
+	sources/Common/Exception.hpp
+	sources/Common/GenericLexer.cpp
+	sources/Common/GenericLexer.hpp
+	sources/Common/Logger.cpp
+	sources/Common/Logger.hpp
+	sources/Common/RenderTarget.cpp
+	sources/Common/RenderTarget.hpp
+
+	sources/WM/WM.hpp
+	sources/WM/X11/X11.hpp
+	sources/WM/X11/X11.cpp
 )
 
 target_link_libraries(g13d
 PUBLIC
 	usb-1.0
+	X11
 )

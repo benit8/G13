@@ -1,6 +1,6 @@
 /*
 ** G13, 2019
-** Exception.hpp
+** Common / Exception.hpp
 */
 
 #pragma once
@@ -14,7 +14,7 @@ class Exception;
 #include <exception>
 #include <string>
 
-#include "extern/tinyformat.hpp"
+#include "tinyformat.hpp"
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -22,11 +22,11 @@ class Exception : public std::exception
 {
 public:
 	template <typename... Args>
-	Exception(const char *fmt, const Args&... args) {
+	Exception(const char* fmt, const Args&... args) {
 		m_what = tfm::format(fmt, args...);
 	}
 
-	virtual const char *what() const noexcept override {
+	virtual const char* what() const noexcept override {
 		return m_what.c_str();
 	}
 

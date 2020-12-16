@@ -17,7 +17,7 @@ namespace G13 {
 #include <list>
 #include <libusb-1.0/libusb.h>
 
-#include "G13/Device.hpp"
+#include "Device.hpp"
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -36,7 +36,7 @@ public:
 	int run();
 	int isRunning() const { return s_running; }
 
-	static Manager &the();
+	static Manager& the();
 
 private:
 	bool findDevices();

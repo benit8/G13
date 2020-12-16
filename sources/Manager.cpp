@@ -3,9 +3,9 @@
 ** Manager.cpp
 */
 
-#include "G13/Manager.hpp"
-#include "Exception.hpp"
-#include "Logger.hpp"
+#include "Manager.hpp"
+#include "Common/Exception.hpp"
+#include "Common/Logger.hpp"
 
 #include <cassert>
 #include <csignal>
@@ -14,7 +14,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-static G13::Manager *s_instance = nullptr;
+static G13::Manager* s_instance = nullptr;
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -25,7 +25,7 @@ namespace G13
 
 bool Manager::s_running = false;
 
-Manager &Manager::the()
+Manager& Manager::the()
 {
 	assert(s_instance);
 	return *s_instance;
@@ -89,7 +89,7 @@ int Manager::run()
 bool Manager::findDevices()
 {
 	// Getting usb devices complete list
-	libusb_device **devices = NULL;
+	libusb_device** devices = NULL;
 	ssize_t count = libusb_get_device_list(NULL, &devices);
 	if (count < 0) {
 		Logger::error("Could not retrieve device list");
@@ -108,12 +108,17 @@ bool Manager::findDevices()
 		}
 
 		// Test for a G13
-		if (desc.idVendor == G13::VendorId && desc.idProduct == G13::ProductId) {
-			try {
-				m_devices.push_back(std::make_unique<Device>(devices[i]));
+		if (desc.idVendor == G13::VendorId) {
+			if (desc.idProduct == G13::ProductId) {
+				try {
+					m_devices.push_back(std::make_unique<Device>(devices[i]));
+				}
+				catch (Exception& e) {
+					Logger::error("Device instanciation failed: %s", e.what());
+				}
 			}
-			catch (Exception &e) {
-				Logger::error("Device instanciation failed: %s", e.what());
+			else {
+				Logger::info("Found other Logitech device with product ID 0x%x", desc.idProduct);
 			}
 		}
 	}

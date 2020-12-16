@@ -1,6 +1,6 @@
 /*
 ** G13, 2020
-** RenderTarget.hpp
+** Common / RenderTarget.hpp
 */
 
 #pragma once
@@ -8,7 +8,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <cstddef>
-#include <string>
+#include <string_view>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -23,15 +23,15 @@ public:
 	void clear();
 	void setPixel(unsigned x, unsigned y);
 	void writeCharacter(unsigned x, unsigned y, int c);
-	void writeString(unsigned x, unsigned y, std::string &&);
+	void writeString(unsigned x, unsigned y, std::string_view);
 
 	virtual void present() const = 0;
 
-	const unsigned char *getFramebufferData() const { return m_framebuffer; }
+	const unsigned char* getFramebufferData() const { return m_framebuffer; }
 	size_t getFramebufferSize() const { return m_bufferSize; }
 
 private:
 	unsigned m_width, m_height;
 	unsigned m_bufferSize;
-	unsigned char *m_framebuffer = nullptr;
+	unsigned char* m_framebuffer = nullptr;
 };

@@ -3,9 +3,9 @@
 ** Display.cpp
 */
 
-#include "G13/Display.hpp"
-#include "Exception.hpp"
-#include "Logger.hpp"
+#include "Display.hpp"
+#include "Common/Exception.hpp"
+#include "Common/Logger.hpp"
 
 #include <cstring>
 
@@ -16,8 +16,8 @@ namespace G13
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Display::Display(libusb_device_handle *handle)
-: RenderTarget(Width, Height)
+Display::Display(libusb_device_handle* handle)
+: RenderTarget(width, height)
 , m_handle(handle)
 {
 	int ret = libusb_control_transfer(m_handle, 0, 9, 1, 0, 0, 0, 1000);
@@ -37,7 +37,7 @@ void Display::present() const
 	::memcpy(buffer + 32, getFramebufferData(), framebufferSize);
 
 	int transfered = 0;
-	int error = libusb_interrupt_transfer(m_handle, LIBUSB_ENDPOINT_OUT | UsbEndPoint, buffer, framebufferSize + 32, &transfered, 1000);
+	int error = libusb_interrupt_transfer(m_handle, LIBUSB_ENDPOINT_OUT | usbEndPoint, buffer, framebufferSize + 32, &transfered, 1000);
 	if (error != 0)
 		Logger::error("Display: error transferring image: %s. %d/%d", libusb_strerror((libusb_error)error), transfered, framebufferSize + 32);
 }

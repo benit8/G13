@@ -1,6 +1,6 @@
 /*
 ** G13, 2020
-** Joystick.hpp
+** Profile.hpp
 */
 
 #pragma once
@@ -13,10 +13,10 @@ namespace G13 {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "Color.hpp"
-#include "G13/Actions.hpp"
-#include "G13/Device.hpp"
-#include "G13/Keys.hpp"
+#include "Common/Color.hpp"
+#include "Actions.hpp"
+#include "Device.hpp"
+#include "Keys.hpp"
 
 #include <map>
 #include <memory>
@@ -36,15 +36,15 @@ class Profile
 	};
 
 public:
-	explicit Profile(Device &parent, std::string &&name = "Default");
+	explicit Profile(Device &parent, const std::string& name);
 
 	void switchToPage(size_t page);
-	void doAction(Key) const;
+	void doAction(Key, bool pressed);
 
-	const std::string &name() const { return m_name; }
+	const std::string& name() const { return m_name; }
 
 private:
-	Device &m_parent;
+	Device& m_parentDevice;
 	std::string m_name;
 
 	Page m_pages[3];
